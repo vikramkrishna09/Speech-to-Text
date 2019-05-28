@@ -1,0 +1,13 @@
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\bin\Debug\SpeechtoText.exe.config
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\bin\Debug\SpeechtoText.exe
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\bin\Debug\SpeechtoText.pdb
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.Form1.resources
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.Properties.Resources.resources
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.csproj.GenerateResource.cache
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.csproj.CoreCompileInputs.cache
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.exe
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.pdb
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\bin\Debug\AudioSwitcher.AudioApi.CoreAudio.dll
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\bin\Debug\AudioSwitcher.AudioApi.dll
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.csproj.CopyComplete
+C:\Users\vikra\Documents\SpeechtoText\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.csprojAssemblyReference.cache
