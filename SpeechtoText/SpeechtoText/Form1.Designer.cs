@@ -31,6 +31,7 @@
             this.Feed = new System.Windows.Forms.TextBox();
             this.Start = new System.Windows.Forms.Button();
             this.Stop = new System.Windows.Forms.Button();
+            this.Feed2 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Feed
@@ -42,6 +43,7 @@
             this.Feed.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Feed.Size = new System.Drawing.Size(1158, 513);
             this.Feed.TabIndex = 0;
+            this.Feed.TextChanged += new System.EventHandler(this.Feed_TextChanged);
             // 
             // Start
             // 
@@ -63,11 +65,24 @@
             this.Stop.UseVisualStyleBackColor = true;
             this.Stop.Click += new System.EventHandler(this.Endbutton);
             // 
+            // Feed2
+            // 
+            this.Feed2.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.Feed2.Location = new System.Drawing.Point(266, 582);
+            this.Feed2.Multiline = true;
+            this.Feed2.Name = "Feed2";
+            this.Feed2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Feed2.Size = new System.Drawing.Size(594, 83);
+            this.Feed2.TabIndex = 3;
+            this.Feed2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Feed2_KeyDown);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1200, 703);
+            this.Controls.Add(this.Feed2);
             this.Controls.Add(this.Stop);
             this.Controls.Add(this.Start);
             this.Controls.Add(this.Feed);
@@ -75,6 +90,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -85,6 +101,7 @@
         private System.Windows.Forms.TextBox Feed;
         private System.Windows.Forms.Button Start;
         private System.Windows.Forms.Button Stop;
+        private System.Windows.Forms.TextBox Feed2;
     }
 }
 

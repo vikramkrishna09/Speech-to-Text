@@ -13,20 +13,72 @@ using System.Speech.Recognition;
 using System.Threading;
 using System.Diagnostics;
 using AudioSwitcher.AudioApi.CoreAudio;
+using System.Data.SqlClient;
+
 namespace SpeechtoText
 {
       
     public partial class Form1 : Form
     {
-        SpeechSynthesizer ss = new SpeechSynthesizer();
-        PromptBuilder pb = new PromptBuilder();
-        SpeechRecognitionEngine sre = new SpeechRecognitionEngine();
-        SpeechRecognitionEngine sre2 = new SpeechRecognitionEngine();
+      private  SpeechSynthesizer ss = new SpeechSynthesizer();
+      private  PromptBuilder pb = new PromptBuilder();
+      private  SpeechRecognitionEngine sre = new SpeechRecognitionEngine();
+      private  SpeechRecognitionEngine sre2 = new SpeechRecognitionEngine();
+       private SpeechRecognitionEngine usernamespeechre = new SpeechRecognitionEngine();
+        private String username;
+        private String password;
+        private SqlConnection sqlCon = new SqlConnection(@"Data Source=LAPTOP-R82623JU;Initial Catalog=SpeechtoTextUserDB;Integrated Security=True");
+
         Choices choices = new Choices(new string[] { "hello" });
         public Form1()
         {
             InitializeComponent();
+            ss.SpeakAsync("Hello, enter your username please and terminate with an enter, if you do not have one, please say, no username");
+            Choices newchoices = new Choices(new string[] { "No Username" });
+            GrammarBuilder gb = new GrammarBuilder();
+            gb.Append(newchoices);
+            Grammar gbb = new Grammar(gb);
+            try
+            {
+                usernamespeechre.RequestRecognizerUpdate();
+                usernamespeechre.LoadGrammar(gbb);
+                usernamespeechre.SpeechRecognized += sre_User_SpeechRecognized;
+                usernamespeechre.SetInputToDefaultAudioDevice();
+                usernamespeechre.RecognizeAsync(RecognizeMode.Multiple);
+
+
+
+
+            }
+
+            catch (Exception exe)
+            {
+                MessageBox.Show(exe.Message, "Error");
+            }
+
+          
+            
+
+
+
+
         }
+
+
+        private void sre_User_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            switch(e.Result.Text.ToString())
+            {
+                case "No Username":
+                    ss.SpeakAsync("Please enter your new username into the white box");
+                    Flag = 4;
+
+                    break;
+            }
+        }
+
+
+
 
         private void Startbutton(object sender, EventArgs e)
         {
@@ -131,6 +183,8 @@ namespace SpeechtoText
             {
                 MessageBox.Show(exe.Message, "Error");
             }
+
+
         }
 
         private void sre_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
@@ -200,6 +254,117 @@ namespace SpeechtoText
             sre2.RecognizeAsyncStop();
             Start.Enabled = true;
             Stop.Enabled = false;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Feed_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        int Flag = 0;
+        int Flag2 = -1;
+        String name;
+        private void Feed2_KeyDown(object sender, KeyEventArgs e)
+        {
+
+
+           if(sqlCon.State == ConnectionState.Closed)
+            {
+                sqlCon.Open();
+            }
+
+
+            if(e.KeyCode == Keys.Enter && (Flag == 0))
+            {
+                
+                username = Feed2.Text.ToString();
+                Feed2.Clear();
+                                ss.SpeakAsync("Please enter your password and terminate with an Enter key");
+
+                Flag = 1;
+                Flag2 = 1;
+                return;
+            }
+            
+
+            if(Flag == 4 && e.KeyCode == Keys.Enter)
+            {
+               
+                username = Feed2.Text.ToString();
+                Feed2.Clear();
+                ss.SpeakAsync("Please enter your name and terminate with an Enter key");
+                Flag = 7;
+                return;
+            }
+
+            if(Flag == 7 && e.KeyCode == Keys.Enter)
+            {
+                name = Feed2.Text.ToString();
+                Feed2.Clear();
+                ss.SpeakAsync("Please enter your password and terminate with an Enter key");
+
+                Flag = 1;
+                return;
+            }
+
+            if (e.KeyCode == Keys.Enter && Flag == 1 && Flag2 == -1)
+            {
+                password = Feed2.Text.ToString();
+                Feed2.Clear();
+                usernamespeechre.RecognizeAsyncStop();
+                Debug.Print("This has been reached");
+                SqlCommand sqlcmd = new SqlCommand("CreateAccount", sqlCon);
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                sqlcmd.Parameters.AddWithValue("@Name", name);
+                sqlcmd.Parameters.AddWithValue("@Username", username);
+                sqlcmd.Parameters.AddWithValue("@Password", password);
+                sqlcmd.ExecuteNonQuery();
+                return;
+
+            }
+
+            else if (e.KeyCode == Keys.Enter && Flag == 1 && Flag2 == 1)
+            {
+                password = Feed2.Text.ToString();
+                Feed2.Clear();
+                usernamespeechre.RecognizeAsyncStop();
+                Debug.Print("This has been reached2");
+                SqlCommand sqlcmd = new SqlCommand("VerifyAccount", sqlCon);
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                int OutputFlag = 0;
+
+                sqlcmd.Parameters.AddWithValue("@Username", username);
+                sqlcmd.Parameters.AddWithValue("@Password", password);
+                sqlcmd.Parameters.AddWithValue("@OutputFlag", OutputFlag).Direction=ParameterDirection.Output ;
+                sqlcmd.ExecuteNonQuery();
+
+                int returntype =  Convert.ToInt32(sqlcmd.Parameters["@OutputFlag"].Value);
+                if (returntype == -1)
+                { ss.SpeakAsync("The password and username are invalid"); }
+                else if (returntype == 1)
+                {
+                    ss.SpeakAsync("The password and username are valid");
+                }
+
+
+                return;
+            }
+
+
+            
+           
+
+
+
+
+
+
+
         }
     }
 }
