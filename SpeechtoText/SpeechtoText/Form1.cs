@@ -324,6 +324,9 @@ namespace SpeechtoText
                 sqlcmd.Parameters.AddWithValue("@Username", username);
                 sqlcmd.Parameters.AddWithValue("@Password", password);
                 sqlcmd.ExecuteNonQuery();
+                ss.SpeakAsync("Greetings!" + name + " Thank you for setting up an account with us");
+                ss.SpeakAsync("Please press the Start Button to activate the voice controlled assistant")
+
                 return;
 
             }
@@ -337,19 +340,26 @@ namespace SpeechtoText
                 SqlCommand sqlcmd = new SqlCommand("VerifyAccount", sqlCon);
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 int OutputFlag = 0;
+                String usernameee = "";
 
                 sqlcmd.Parameters.AddWithValue("@Username", username);
                 sqlcmd.Parameters.AddWithValue("@Password", password);
                 sqlcmd.Parameters.AddWithValue("@OutputFlag", OutputFlag).Direction=ParameterDirection.Output ;
+                sqlcmd.Parameters.AddWithValue("@OutputName", usernameee).Direction = ParameterDirection.Output;
+
                 sqlcmd.ExecuteNonQuery();
 
                 int returntype =  Convert.ToInt32(sqlcmd.Parameters["@OutputFlag"].Value);
+                usernameee = Convert.ToString(sqlcmd.Parameters["@OutputName"].Value);
                 if (returntype == -1)
                 { ss.SpeakAsync("The password and username are invalid"); }
                 else if (returntype == 1)
                 {
                     ss.SpeakAsync("The password and username are valid");
+                    ss.SpeakAsync("Welcome back!" + usernameee);
+                    ss.SpeakAsync("Please press the Start Button to activate the voice controlled assistant")
                 }
+
 
 
                 return;
