@@ -27,7 +27,7 @@ namespace SpeechtoText
        private SpeechRecognitionEngine usernamespeechre = new SpeechRecognitionEngine();
         private String username;
         private String password;
-        private SqlConnection sqlCon = new SqlConnection(@"Data Source=LAPTOP-R82623JU;Initial Catalog=SpeechtoTextUserDB;Integrated Security=True");
+        private SqlConnection sqlCon = new SqlConnection("Data Source=LAPTOP-R82623JU;Initial Catalog=SpeechtoTextUserDB;Integrated Security=True");
 
         Choices choices = new Choices(new string[] { "hello" });
         public Form1()
@@ -305,6 +305,8 @@ namespace SpeechtoText
             if(Flag == 7 && e.KeyCode == Keys.Enter)
             {
                 name = Feed2.Text.ToString();
+                name = name.TrimStart('\r', '\n');
+                Debug.Print(name.Length.ToString());
                 Feed2.Clear();
                 ss.SpeakAsync("Please enter your password and terminate with an Enter key");
 
@@ -315,6 +317,8 @@ namespace SpeechtoText
             if (e.KeyCode == Keys.Enter && Flag == 1 && Flag2 == -1)
             {
                 password = Feed2.Text.ToString();
+                password = password.TrimStart('\r', '\n');
+                Debug.Print(password + " tghis is the password");
                 Feed2.Clear();
                 usernamespeechre.RecognizeAsyncStop();
                 Debug.Print("This has been reached");
@@ -325,7 +329,7 @@ namespace SpeechtoText
                 sqlcmd.Parameters.AddWithValue("@Password", password);
                 sqlcmd.ExecuteNonQuery();
                 ss.SpeakAsync("Greetings!" + name + " Thank you for setting up an account with us");
-                ss.SpeakAsync("Please press the Start Button to activate the voice controlled assistant")
+                ss.SpeakAsync("Please press the Start Button to activate the voice controlled assistant");
 
                 return;
 
@@ -334,30 +338,39 @@ namespace SpeechtoText
             else if (e.KeyCode == Keys.Enter && Flag == 1 && Flag2 == 1)
             {
                 password = Feed2.Text.ToString();
+                password = password.TrimStart('\r', '\n');
+
                 Feed2.Clear();
                 usernamespeechre.RecognizeAsyncStop();
                 Debug.Print("This has been reached2");
+                Debug.Print(password + " tghis is the password");
+
                 SqlCommand sqlcmd = new SqlCommand("VerifyAccount", sqlCon);
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 int OutputFlag = 0;
-                String usernameee = "";
+                String usernameee = " ";
 
                 sqlcmd.Parameters.AddWithValue("@Username", username);
                 sqlcmd.Parameters.AddWithValue("@Password", password);
                 sqlcmd.Parameters.AddWithValue("@OutputFlag", OutputFlag).Direction=ParameterDirection.Output ;
-                sqlcmd.Parameters.AddWithValue("@OutputName", usernameee).Direction = ParameterDirection.Output;
+                sqlcmd.Parameters.Add("@OutputName", SqlDbType.VarChar,50).Direction = ParameterDirection.Output;
 
+                
                 sqlcmd.ExecuteNonQuery();
+                Debug.Print(usernameee);
 
                 int returntype =  Convert.ToInt32(sqlcmd.Parameters["@OutputFlag"].Value);
-                usernameee = Convert.ToString(sqlcmd.Parameters["@OutputName"].Value);
+                String usernameeeu = Convert.ToString((sqlcmd.Parameters["@OutputName"].Value));
+                Debug.Print(usernameeeu);
+                
+                Debug.Print(returntype.ToString());
                 if (returntype == -1)
                 { ss.SpeakAsync("The password and username are invalid"); }
                 else if (returntype == 1)
                 {
                     ss.SpeakAsync("The password and username are valid");
-                    ss.SpeakAsync("Welcome back!" + usernameee);
-                    ss.SpeakAsync("Please press the Start Button to activate the voice controlled assistant")
+                    ss.SpeakAsync("Welcome back!" + usernameeeu);
+                    ss.SpeakAsync("Please press the Start Button to activate the voice controlled assistant");
                 }
 
 
