@@ -24,3 +24,10 @@ C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\obj\Debug\Spee
 C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.csproj.CopyComplete
 C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.exe
 C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\obj\Debug\SpeechtoText.pdb
+C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\bin\Debug\Database1.mdf
+C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\bin\Debug\Database1_log.ldf
+C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\bin\Debug\Dapper.dll
+C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\bin\Debug\System.Data.SQLite.dll
+C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\bin\Debug\Dapper.xml
+C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\bin\Debug\System.Data.SQLite.xml
+C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\bin\Debug\System.Data.SQLite.dll.config

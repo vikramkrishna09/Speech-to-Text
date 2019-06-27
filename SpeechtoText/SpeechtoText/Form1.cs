@@ -27,15 +27,25 @@ namespace SpeechtoText
        private SpeechRecognitionEngine usernamespeechre = new SpeechRecognitionEngine();
         private String username;
         private String password;
-        private SqlConnection sqlCon = new SqlConnection("Data Source=LAPTOP-R82623JU;Initial Catalog=SpeechtoTextUserDB;Integrated Security=True");
+        string Path = Environment.CurrentDirectory;
+        String ConnectionString = "Data Source=" + System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) + "\\Database.sdf";
+
+        private SqlConnection sqlCon;
 
         Choices choices = new Choices(new string[] { "hello" });
         public Form1()
         {
+
             InitializeComponent();
-            ss.SpeakAsync("Hello, enter your username please and terminate with an enter, if you do not have one, please say, no username");
             Choices newchoices = new Choices(new string[] { "No Username" });
             GrammarBuilder gb = new GrammarBuilder();
+
+           sqlCon = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vikra\Documents\Speech-to-Text\SpeechtoText\SpeechtoText\Database1.mdf;Integrated Security=True");
+            ss.SpeakAsync(Environment.CurrentDirectory);
+        Debug.Print("|DataDirectory|");
+            Debug.Print(ConnectionString);
+            Debug.Print(System.Environment.CurrentDirectory);
+            Debug.Print(Path);
             gb.Append(newchoices);
             Grammar gbb = new Grammar(gb);
             try
@@ -56,8 +66,9 @@ namespace SpeechtoText
                 MessageBox.Show(exe.Message, "Error");
             }
 
-          
-            
+            ss.SpeakAsync("Hello, enter your username please and terminate with an enter, if you do not have one, please say, no username");
+
+
 
 
 
@@ -192,11 +203,12 @@ namespace SpeechtoText
             switch(e.Result.Text.ToString())
             {
                 case "hello":
-                    ss.SpeakAsync("whats good");
+                    ss.SpeakAsync("hello " + name);
                      break;
                 case "close":
                     Application.Exit();
                     break;
+
                 
             }
 
